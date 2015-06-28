@@ -1,20 +1,21 @@
-'D.C. United',
-'Vancouver Whitecaps FC',
-'Seattle Sounders FC',
-'LA Galaxy',
-'Sporting Kansas City',
-'FC Dallas',
-'San Jose Earthquakes',
-'Portland Timbers',
-'New England Revolution',
-'Toronto FC',
-'Orlando City SC',
-'Real Salt Lake',
-'Columbus Crew SC',
-'New York Red Bulls',
-'Houston Dynamo',
-'Philadelphia Union',
-'Montreal Impact',
-'New York City FC',
-'Colorado Rapids',
-'Chicago Fire',
+Club, R, G, B
+Chicago Fire, 2, 31, 88
+Colorado Rapids, 133, 0, 35
+Columbus Crew SC, 255, 244, 9
+D.C. United, 231, 21, 28
+FC Dallas, 196, 0, 50
+Houston Dynamo, 240, 125, 24
+LA Galaxy, 0, 24, 74
+Montreal Impact, 7, 62, 138
+New England Revolution, 229, 57, 85
+New York City FC, 94, 153, 213
+New York Red Bulls, 217, 0, 64
+Orlando City SC, 80, 31, 130
+Philadelphia Union, 166, 136, 73
+Portland Timbers, 7, 58, 15
+Real Salt Lake, 162, 0, 43
+San Jose Earthquakes, 0, 0, 0
+Seattle Sounders FC, 77, 136, 38
+Sporting Kansas City, 128, 160, 204
+Toronto FC, 54, 68, 78
+Vancouver Whitecaps FC, 0, 18, 52
