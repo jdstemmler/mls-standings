@@ -35,27 +35,28 @@ def read_conference(conferences):
 fig = plt.figure()
 ax = fig.add_axes([.1, .1, .6, .8])
 
-standings = P[:,:,'PTS']
-dates = standings.columns.to_pydatetime()
-standings = standings.sort(dates[-1], ascending=False)
-clubs = standings.index.tolist()
+current_points = P[-1, :, 'PTS'].copy()
+current_points.sort(ascending=False)
+clubs = current_points.index.tolist()
 
 colordict = read_colors(colors)
 confdict = read_conference(conferences)
 
 for club in clubs:
-    ax.plot_date(dates, standings.ix[club].values, '-',
+    club_standing = P[:, club, ["PTS", "GP"]].T.groupby("GP").median()
+    ax.plot(club_standing.index, club_standing.values, '.-',
                  label=club, color=colordict[club])
     #standings.ix[club].plot('.-', ax=ax, label=club)
 
 ax.legend(bbox_to_anchor=(1, .5), loc='center left',
           borderaxespad=0., fontsize=8)
 ax.set_ylim(top = ax.get_ylim()[-1]+5)
+ax.set_xlabel('Games Played')
 ax.set_ylabel('Points')
 
 ax.set_title("Current MLS Supporter's Shield Standings\nAs of {} Eastern"
-             .format(dates[-1]))
-fig.autofmt_xdate()
+             .format(P.items[-1]))
+#fig.autofmt_xdate()
 fig.savefig('./plots/standings_history.png', dpi=300)
 
 
@@ -73,7 +74,7 @@ for i, club in enumerate(clubs):
         ha = 'left'
         if ep is not None: ep += 1
 
-    points = standings[dates[-1]].ix[club]
+    points = current_points.ix[club]
 
     ax.barh(-1*i, scale*points, align='center',
             color=confcolors[confdict[club]],
@@ -100,7 +101,7 @@ ax2 = ax.twinx()
 ax2.set_ylabel('Eastern Conference')
 ax2.grid('off')
 ax2.set_yticks([])
-ax.set_title('MLS Standings by Conference\nAs of {} Eastern'.format(dates[-1]))
+ax.set_title('MLS Standings by Conference\nAs of {} Eastern'.format(P.items[-1]))
 
 fig.savefig('./plots/standings_current.png', dpi=300)
 
