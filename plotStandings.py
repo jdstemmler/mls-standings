@@ -10,7 +10,10 @@ import seaborn as sns
 
 
 panel = os.path.join('./data/mlsStandings.data')
+table = os.path.join('./data/resultsTable.csv')
+
 P = pd.read_hdf(panel, 'shield')
+T = pd.read_csv(table, index_col="Game")
 
 colors = os.path.join('./assets/teamColors.csv')
 conferences = os.path.join('./assets/conferences.csv')
@@ -35,7 +38,7 @@ def read_conference(conferences):
 fig = plt.figure()
 ax = fig.add_axes([.1, .1, .6, .8])
 
-current_points = P[-1, :, 'PTS'].copy()
+current_points = T.sum().copy()
 current_points.sort(ascending=False)
 clubs = current_points.index.tolist()
 
@@ -43,7 +46,7 @@ colordict = read_colors(colors)
 confdict = read_conference(conferences)
 
 for club in clubs:
-    club_standing = P[:, club, ["PTS", "GP"]].T.groupby("GP").median()
+    club_standing = T[club].cumsum()
     ax.plot(club_standing.index, club_standing.values, '.-',
                  label=club, color=colordict[club])
     #standings.ix[club].plot('.-', ax=ax, label=club)
