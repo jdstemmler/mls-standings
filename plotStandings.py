@@ -61,19 +61,31 @@ fig.savefig('./plots/standings_history.png', dpi=300)
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
+wp, ep = (0, 0)
 
 for i, club in enumerate(clubs):
     if confdict[club] == "Western":
         scale = -1
         ha = 'right'
+        if wp is not None: wp += 1
     elif confdict[club] == "Eastern":
         scale = 1
         ha = 'left'
+        if ep is not None: ep += 1
 
     points = standings[dates[-1]].ix[club]
 
     ax.barh(-1*i, scale*points, align='center',
-            color=confcolors[confdict[club]])
+            color=confcolors[confdict[club]],
+            edgecolor='none')
+
+    if wp == 6:
+        ax.plot([0, ax.get_xlim()[0]], [-1*i-.5, -1*i-.5], 'k--', linewidth=.5)
+        wp = None
+    if ep == 6:
+        ax.plot([0, ax.get_xlim()[1]], [-1*i-.5, -1*i-.5], 'k--', linewidth=.5)
+        ep = None
+
     ax.text(scale*2, -1*i, club, ha=ha, va='center', fontsize=8)
     ax.text(scale*(points+1), -1*i, '{:2.0f}'.format(points),
             ha=ha, va='center', fontsize=9)
