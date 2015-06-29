@@ -90,6 +90,6 @@ ax2.grid('off')
 ax2.set_yticks([])
 ax.set_title('MLS Standings by Conference\nAs of {} Eastern'.format(dates[-1]))
 
-fig.savefig('./plots/standings_current.png')
+fig.savefig('./plots/standings_current.png', dpi=300)
 
 plt.close('all')
