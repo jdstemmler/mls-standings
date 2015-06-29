@@ -53,7 +53,7 @@ ax.legend(bbox_to_anchor=(1, .5), loc='center left',
 ax.set_ylim(top = ax.get_ylim()[-1]+5)
 ax.set_ylabel('Points')
 
-fig.suptitle("Current MLS Supporter's Shield Standings\nAs of {} Eastern"
+ax.set_title("Current MLS Supporter's Shield Standings\nAs of {} Eastern"
              .format(dates[-1]))
 fig.autofmt_xdate()
 fig.savefig('./plots/standings_history.png', dpi=300)
