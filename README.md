@@ -27,7 +27,7 @@ I make no guarantees that this will work. Please don't run the web scraping scri
 ## Plots
 For more plots, go poke around the plots directory!
 #### Current Standings
-![CurrentStandings](./plots/current_points_standings.png =500x)
+![CurrentStandings](./example/current_points_standings.png =500x)
 
 #### Standings by Game
-![StandingsByGame](./plots/standings_by_game.png =500x)
+![StandingsByGame](./example/standings_by_game.png =500x)
