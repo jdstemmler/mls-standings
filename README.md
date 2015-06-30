@@ -25,7 +25,7 @@ Plotting the data happens in the `makePlots.py` script. This script uses some pl
 I make no guarantees that this will work. Please don't run the web scraping script over and over on MLS's website - that's a great way to irritate them and is not very nice.
 
 ## Plots
-For more plots, go poke around the plots directory!
+For more plots, go poke around the example directory!
 #### Current PPG Standings
 ![CurrentStandings](https://raw.githubusercontent.com/jdstemmler/mls-standings/master/example/ppg_standings.png)
 
