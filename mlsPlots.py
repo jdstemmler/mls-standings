@@ -8,6 +8,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# read in the color table
 def read_colors(colors):
     colortable = pd.read_csv(colors, header=0, index_col="Club")
     colordict = {}
@@ -15,6 +16,7 @@ def read_colors(colors):
         colordict[club] = (r/255., g/255., b/255.)
     return colordict
 
+# read in the conference table
 def read_conference(conferences):
     conftable = pd.read_csv(conferences, header=0, index_col="Club")
     confdict = {}
@@ -22,22 +24,28 @@ def read_conference(conferences):
         confdict[club] = conference.strip()
     return confdict
 
+# make a timeseries like plot of points against games played
 def plot_points_by_game(table, colors):
+
+    # make the figure and axes
     fig = plt.figure()
     ax = fig.add_axes([.1, .1, .6, .8])
 
+    # get the current point stanings for the ordered list of clubs
     current_points = table.sum().copy()
     current_points.sort(ascending=False)
-
     clubs = current_points.index.tolist()
 
+    # get the colors for each club
     color_dict = read_colors(colors)
 
+    # iterate through each club and plot
     for club in clubs:
         club_points = table[club].cumsum()
         ax.plot(club_points.index, club_points.values, '.-',
                 label=club, color=color_dict[club])
 
+    # make the legend
     ax.legend(bbox_to_anchor=(1, .5), loc='center left',
               borderaxespad=0., fontsize=8)
 
@@ -47,21 +55,29 @@ def plot_points_by_game(table, colors):
 
     ax.set_title("Current MLS Supporter's Shield Standings")
 
+    # return the figure and axes handles for doing extra things
     return fig, ax
 
+# make the bar chart
 def plot_split_standings(primary, conferences, secondary=None, **kwargs):
 
+    # create the figure and axis handles
     fig, ax = plt.subplots()
 
+    # generate the list of clubs based on the primary Series
     clubs = primary.index.tolist()
 
+    # get the conference mapping
     conference_dict = read_conference(conferences)
     conference_colors = {'Western': '#FA5858',
                          'Eastern': '#81BEF7'}
 
+    # set up counters for playoff designation
     west_playoff, east_playoff = (0, 0)
 
+    # loop through each of the clubs
     for i, club in enumerate(clubs):
+        # get the conference each club belongs to and set some variables
         conference = conference_dict[club]
         if conference == "Western":
             flip = -1
@@ -72,19 +88,24 @@ def plot_split_standings(primary, conferences, secondary=None, **kwargs):
             ha = 'left'
             if east_playoff is not None: east_playoff += 1
 
+        # the the primary values for the specific club
         primary_value = primary[club]
+
+        # if there's a secondary parameter, plot that first
         if secondary is not None:
             secondary_value = secondary[club]
             ax.barh(-1*i, flip*secondary_value, align='center',
                     color=conference_colors[conference],
-                    edgecolor='none',
+                    edgecolor=conference_colors[conference],
                     alpha=.3)
 
+        # plot the primary parameters
         ax.barh(-1*i, flip*primary_value, align='center',
                 color=conference_colors[conference],
-                edgecolor='none',
+                edgecolor=conference_colors[conference],
                 alpha=1)
 
+        # draw the playoff cutoff lines
         if west_playoff == 6:
             ax.plot([0, ax.get_xlim()[0]],
                     [-1*i-.5, -1*i-.5],
@@ -96,7 +117,9 @@ def plot_split_standings(primary, conferences, secondary=None, **kwargs):
                     'k--', linewidth=.6)
             east_playoff = None
 
-        ax.text(0, -1*i, ' '+club+' ', ha=ha, va='center', fontsize=8)
+        # write the team names to the bars
+        offset = flip * (ax.get_xlim()[1] / 40)
+        ax.text(0, -1*i, club, ha=ha, va='center', fontsize=8)
 
     ax.set_ylim(top=1)
     xtickfmt = kwargs.pop('xtickfmt', '{:2.0f}')
