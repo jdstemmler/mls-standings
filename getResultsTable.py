@@ -16,7 +16,7 @@ def wld2pts(wld):
 
 	return pts
 
-def results_table():
+def results_table(outfile):
 	url = "http://www.mlssoccer.com/results"
 	html = urlopen(url)
 	listingObj = BeautifulSoup(html.read())
@@ -35,8 +35,11 @@ def results_table():
 		record[club] = club_record
 
 	D = pd.DataFrame(record, index=games[1:])
-	D.to_csv('./data/resultsTable.csv', index_label="Game")
+	D.to_csv(outfile, index_label="Game")
 	return D
 
-if "__name__" == "__main__":
-	D = results_table()
+#print(__name__)
+if __name__ == "__main__":
+	outfile = os.path.join('./data/resultsTable.csv')
+	# print('saving {}'.format(outfile))
+	D = results_table(outfile)
