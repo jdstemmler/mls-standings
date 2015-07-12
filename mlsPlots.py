@@ -28,8 +28,8 @@ def read_conference(conferences):
 def plot_points_by_game(table, colors):
 
     # make the figure and axes
-    fig = plt.figure()
-    ax = fig.add_axes([.1, .1, .6, .8])
+    fig = plt.figure(figsize=(10, 6))
+    ax = fig.add_axes([.1, .1, .7, .8])
 
     # get the current point stanings for the ordered list of clubs
     current_points = table.sum().copy()
