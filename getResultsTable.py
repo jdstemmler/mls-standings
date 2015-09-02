@@ -19,7 +19,7 @@ def wld2pts(wld):
 def results_table(outfile):
 	url = "http://www.mlssoccer.com/results"
 	html = urlopen(url)
-	listingObj = BeautifulSoup(html.read())
+	listingObj = BeautifulSoup(html.read(), "html.parser")
 
 	table = listingObj.findAll("table", {"class": "game-record"})[0]
 	rows = table.findAll("tr")
